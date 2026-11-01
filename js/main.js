@@ -1,29 +1,45 @@
-// 1. Project cards: play the preview clip while a card is hovered or focused.
-//    Skipped on touch screens and for visitors who prefer reduced motion.
+// 1. Project cards: preview clips.
+//    - The featured project (video with data-autoplay) plays by itself while it's on screen.
+//    - Other cards play their clip while hovered or focused (not on touch screens).
+//    Nothing plays for visitors who prefer reduced motion.
 (function () {
-  var canHover = window.matchMedia("(hover: hover)").matches;
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!canHover || reduce) return;
+  if (reduce) return;
+  var canHover = window.matchMedia("(hover: hover)").matches;
 
-  document.querySelectorAll(".project").forEach(function (card) {
+  function controls(media) {
+    var video = media.querySelector("video");
+    return {
+      video: video,
+      start: function () {
+        if (!video.src && video.dataset.src) video.src = video.dataset.src; // load only when needed
+        var p = video.play();
+        if (p && p.then) p.then(function () { media.classList.add("is-playing"); }).catch(function () {});
+      },
+      stop: function () {
+        media.classList.remove("is-playing");
+        video.pause();
+      }
+    };
+  }
+
+  document.querySelectorAll(".feature, .tile").forEach(function (card) {
     var media = card.querySelector(".media");
-    var video = media && media.querySelector("video");
-    if (!video) return;
+    if (!media || !media.querySelector("video")) return;
+    var c = controls(media);
 
-    function start() {
-      if (!video.src && video.dataset.src) video.src = video.dataset.src; // load only when needed
-      var p = video.play();
-      if (p && p.then) p.then(function () { media.classList.add("is-playing"); }).catch(function () {});
-    }
-    function stop() {
-      media.classList.remove("is-playing");
-      video.pause();
+    if (c.video.hasAttribute("data-autoplay") && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { e.isIntersecting ? c.start() : c.stop(); });
+      }, { threshold: 0.35 }).observe(media);
+      return;
     }
 
-    card.addEventListener("mouseenter", start);
-    card.addEventListener("mouseleave", stop);
-    card.addEventListener("focusin", start);
-    card.addEventListener("focusout", stop);
+    if (!canHover) return;
+    card.addEventListener("mouseenter", c.start);
+    card.addEventListener("mouseleave", c.stop);
+    card.addEventListener("focusin", c.start);
+    card.addEventListener("focusout", c.stop);
   });
 })();
 

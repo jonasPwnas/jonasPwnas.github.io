@@ -4,13 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Jonas Petersson, gameplay programmer</title>
-  <meta name="description" content="Gameplay programming student at Futuregames and trained game designer, looking for an internship from spring 2027.">
+  <meta name="description" content="Game designer turned programmer, focusing on gameplay AI, combat and the 3Cs. Studying at Futuregames, looking for an internship from spring 2027.">
   <meta property="og:title" content="Jonas Petersson, gameplay programmer">
-  <meta property="og:description" content="Gameplay programming student at Futuregames and trained game designer, looking for an internship from spring 2027.">
+  <meta property="og:description" content="Game designer turned programmer, focusing on gameplay AI, combat and the 3Cs. Studying at Futuregames, looking for an internship from spring 2027.">
   <meta property="og:image" content="https://jonaspwnas.com/media/goat-simulator-3/poster.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -29,61 +26,120 @@
 
   <main>
     <section class="intro wrap">
-      <h1>Gameplay programmer in training, game designer by trade.</h1>
-      <p>I'm studying gameplay programming at Futuregames and looking for an <strong>internship from spring 2027</strong>. I've worked on two shipped games in professional studios, so I know how a feature goes from idea to release.</p>
+      <h1>Game designer turned programmer.</h1>
+      <p>I focus on <strong>gameplay AI, combat and the 3Cs</strong>. I'm studying gameplay programming at Futuregames and looking for an <strong>internship from spring 2027</strong>.</p>
       <div class="actions">
         <a class="btn btn-primary" href="#work">See my work</a>
         <!-- Add back when files/cv.pdf exists: <a class="btn btn-ghost" href="files/cv.pdf">Download CV</a> -->
       </div>
     </section>
 
-    <section class="section" id="work" aria-labelledby="work-title">
+    <section class="section work" id="work" aria-labelledby="work-title">
       <div class="wrap">
-        <h2 class="section-title" id="work-title">Selected work</h2>
+        <h2 class="section-title" id="work-title">Featured project</h2>
 
-        <!-- Projects, best first. To add one, copy an <li class="project"> block. -->
-        <ul class="projects">
-
-          <li class="project">
-            <div class="media">
-              <img src="media/bramble/poster.jpg" alt="Borcha, a horned butcher troll holding a cleaver" loading="lazy">
-              <video muted loop playsinline preload="none" data-src="media/bramble/preview.mp4" aria-hidden="true"></video>
-            </div>
-            <div class="project-body">
+        <!-- The big project at the top. Swap in whichever project you're proudest of. -->
+        <article class="feature">
+          <div class="media">
+            <img src="media/bramble/poster.jpg" alt="The Butcher, a horned troll holding a cleaver">
+            <video muted loop playsinline preload="none" data-src="media/bramble/preview.mp4" data-autoplay aria-hidden="true"></video>
+          </div>
+          <div class="feature-body">
+            <div class="feature-text">
               <div class="meta">
                 <span class="kind kind-professional">Professional</span>
                 <span>Dimfrost Studio, 2023</span>
               </div>
               <h3><a href="projects/bramble.html">Bramble: The Mountain King</a></h3>
-              <p>Lead game design, scripting and programming. I prototyped and built new gameplay features, mechanics and events throughout the game, from first version to release.</p>
+              <p>Lead game design, scripting and programming. I designed and implemented The Butcher boss fight, including its state-machine AI, and built new gameplay features, mechanics and events throughout the game.</p>
+            </div>
+            <div class="feature-side">
               <ul class="tags" aria-label="Tech">
                 <li>Unreal Engine 4</li>
                 <li>Blueprints</li>
                 <li>Gameplay programming</li>
               </ul>
+              <span class="btn btn-primary" aria-hidden="true">See project</span>
             </div>
-          </li>
+          </div>
+        </article>
 
-          <li class="project">
+        <h2 class="section-title more-title">More work</h2>
+
+        <!-- Smaller projects. To add one, copy an <li class="tile"> block.
+             Title and tag always show; the description appears on hover (always shown on phones). -->
+        <ul class="tiles">
+          <li class="tile">
             <div class="media">
               <img src="media/goat-simulator-3/poster.jpg" alt="Two cars racing down a cartoon street in Goat Simulator 3" loading="lazy">
               <video muted loop playsinline preload="none" data-src="media/goat-simulator-3/preview.mp4" aria-hidden="true"></video>
             </div>
-            <div class="project-body">
+            <div class="tile-body">
               <div class="meta">
                 <span class="kind kind-professional">Professional</span>
                 <span>Coffee Stain North, 2024</span>
               </div>
               <h3><a href="projects/goat-simulator-3.html">Goat Simulator 3: Multiverse of Nonsense</a></h3>
-              <p>Joined late in production and finished the vehicle implementation in Blueprints, for both player control and NPC drivers, then polished features to a shippable state.</p>
-              <ul class="tags" aria-label="Tech">
-                <li>Unreal Engine 4</li>
-                <li>Blueprints</li>
-                <li>Gameplay scripting</li>
-              </ul>
+            </div>
+            <div class="tile-info">
+              <div class="tile-info-panel">
+                <p>Finished the vehicle implementation in Blueprints, for both player control and NPC drivers, then polished features to a shippable state.</p>
+                <ul class="tags" aria-label="Tech">
+                  <li>Unreal Engine 4</li>
+                  <li>Blueprints</li>
+                </ul>
+              </div>
             </div>
           </li>
 
+          <!-- Coming soon: when the project page is ready, replace this with a normal tile -->
+          <li class="tile tile-soon">
+            <div class="media media-soon" aria-hidden="true"><span>Venator</span></div>
+            <div class="tile-body">
+              <div class="meta">
+                <span class="kind kind-student">Student</span>
+                <span class="kind kind-soon">Coming soon</span>
+              </div>
+              <h3>Venator</h3>
+            </div>
+            <div class="tile-info">
+              <div class="tile-info-panel">
+                <p>I'm putting together the project page for Venator. Check back soon.</p>
+              </div>
+            </div>
+          </li>
+          <!-- Coming soon: when the project page is ready, replace this with a normal tile -->
+          <li class="tile tile-soon">
+            <div class="media media-soon" aria-hidden="true"><span>P.R.O.S</span></div>
+            <div class="tile-body">
+              <div class="meta">
+                <span class="kind kind-student">Student</span>
+                <span class="kind kind-soon">Coming soon</span>
+              </div>
+              <h3>P.R.O.S</h3>
+            </div>
+            <div class="tile-info">
+              <div class="tile-info-panel">
+                <p>I'm putting together the project page for P.R.O.S. Check back soon.</p>
+              </div>
+            </div>
+          </li>
+          <!-- Coming soon: when the project page is ready, replace this with a normal tile -->
+          <li class="tile tile-soon">
+            <div class="media media-soon" aria-hidden="true"><span>Snowblind</span></div>
+            <div class="tile-body">
+              <div class="meta">
+                <span class="kind kind-student">Student</span>
+                <span class="kind kind-soon">Coming soon</span>
+              </div>
+              <h3>Snowblind</h3>
+            </div>
+            <div class="tile-info">
+              <div class="tile-info-panel">
+                <p>I'm putting together the project page for Snowblind. Check back soon.</p>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </section>
