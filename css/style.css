@@ -439,6 +439,10 @@ a:hover { text-decoration-color: var(--green-deep); }
   padding-block: 2.5rem;
   border-top: 1px solid var(--line);
 }
+@media (max-width: 600px) {
+  .next { flex-direction: column; align-items: stretch; text-align: center; }
+  .next .btn { justify-content: center; }
+}
 
 /* ---------- Key-art header (a project with a logo) ---------- */
 /* The h1 is the game's logo image, laid over a darkened screenshot. */
