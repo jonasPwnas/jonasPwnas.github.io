@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--
+    HOW TO MAKE A NEW PROJECT PAGE
+    1. Copy this file and rename it, e.g. projects/my-game.html
+    2. Put its images and clips in media/my-game/
+    3. Fill in the text below. Keep 1 to 3 <section class="block"> sections and delete the rest.
+       - class="block"       text left, media right
+       - class="block flip"  media left, text right
+       - class="block full"  full width (good for a video or embed)
+    4. Add a card for it in index.html that links here.
+  -->
+  <title>Project title, Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-name" href="../">Your Name</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../#work">Work</a>
+        <a href="../#about">About</a>
+        <a href="../#contact">Contact</a>
+        <a href="../files/cv.pdf">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back" href="../#work">All work</a>
+
+    <header class="project-head">
+      <h1>Project title</h1>
+      <p class="summary">One or two sentences: what the project is and what you built for it.</p>
+    </header>
+
+    <!-- Hero: a video (with a poster image) or just an <img class="hero-media"> -->
+    <div class="hero-media media-placeholder">Hero image or video, 16:9</div>
+
+    <dl class="facts">
+      <div><dt>Team</dt><dd>6 people</dd></div>
+      <div><dt>Duration</dt><dd>7 weeks</dd></div>
+      <div><dt>My role</dt><dd>Gameplay programmer</dd></div>
+      <div><dt>Tech</dt><dd>Unreal Engine 5, C++</dd></div>
+    </dl>
+
+    <section class="block">
+      <div class="block-text">
+        <h2>Section heading</h2>
+        <p>What the problem was, how you solved it, and what you'd do differently.</p>
+      </div>
+      <div class="block-media">
+        <figure>
+          <div class="media-placeholder" style="aspect-ratio:16/9">Image, clip or code screenshot</div>
+          <figcaption>Optional caption.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <nav class="next" aria-label="More projects">
+      <a href="../#work">All work</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Your Name, 2026.</div>
+  </footer>
+</body>
+</html>
