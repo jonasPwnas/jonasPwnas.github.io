@@ -69,6 +69,12 @@ a:hover { text-decoration-color: var(--green-deep); }
   padding-inline: var(--gutter);
 }
 
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
 .skip {
   position: absolute; left: -999px; top: 0;
   background: var(--ink); color: var(--paper); padding: 0.5rem 1rem;
@@ -117,21 +123,20 @@ a:hover { text-decoration-color: var(--green-deep); }
 
 /* ---------- Intro ---------- */
 
-.intro { padding-block: clamp(3.5rem, 10vw, 7.5rem) clamp(3rem, 7vw, 5rem); }
+.intro { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(1.75rem, 4vw, 2.75rem); }
 .intro h1 {
-  margin: 0 0 1.5rem;
-  font-size: var(--step-4);
-  line-height: 0.98;
+  margin: 0 0 0.9rem;
+  font-size: clamp(2.2rem, 5vw, 3.75rem);
+  line-height: 1;
   letter-spacing: -0.025em;
   font-weight: 700;
-  max-width: 17ch;
 }
 .intro p {
-  margin: 0 0 2rem;
-  font-size: var(--step-1);
+  margin: 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
   line-height: 1.45;
   color: var(--muted);
-  max-width: 44ch;
+  max-width: 72ch;
 }
 .intro p strong { color: var(--ink); font-weight: 600; }
 .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
@@ -150,7 +155,8 @@ a:hover { text-decoration-color: var(--green-deep); }
 
 /* ---------- Work: featured project + tiles ---------- */
 
-.work { background: var(--surface); }
+.work { background: var(--surface); padding-top: clamp(2rem, 4vw, 3rem); }
+.work .section-title { font-size: var(--step-2); margin-bottom: clamp(1rem, 2.5vw, 1.5rem); }
 
 /* Shared card look: white, rounded, soft shadow. Lifts a little on hover. */
 .feature, .tile {
