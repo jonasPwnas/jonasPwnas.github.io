@@ -30,14 +30,15 @@
     </div>
 
     <header class="project-head">
-      <p class="summary">A four-week Soulslike made at Futuregames. I built the enemy state machine used by every enemy in the game, the elemental system, and the first version of the player character's warp-motion-inspired system.</p>
+      <p class="summary">A four-week Soulslike made at Futuregames, where I was lead programmer. I built the enemy state machine used by every enemy in the game and the elemental system, implemented all of the animations and audio, and wrote the first version of the player controller.</p>
     </header>
 
     <dl class="facts">
-      <div><dt>Team</dt><dd>Futuregames Team 6</dd></div>
+      <div><dt>My role</dt><dd>Lead programmer</dd></div>
+      <div><dt>Team</dt><dd>4 designers, 4 programmers</dd></div>
       <div><dt>Duration</dt><dd>4 weeks</dd></div>
       <div><dt>Genre</dt><dd>Soulslike</dd></div>
-      <div><dt>Tech</dt><dd>Unity, C#</dd></div>
+      <div><dt>Tech</dt><dd>Unity, C#, FMOD</dd></div>
     </dl>
 
     <!-- Section 1: enemy AI -->
@@ -45,7 +46,7 @@
       <div class="block-text">
         <h2>A state machine for every enemy</h2>
         <p>I built a two-tiered state machine that designers could easily configure in the editor, using weights and attack pools to shape how each enemy fights.</p>
-        <p>It was used on every enemy in the game.</p>
+        <p>We started out with a GOAP framework that didn't come together in time. At the start of week three I made the call to switch, built the FSM from scratch in about two and a half days, and used it to implement every enemy and the boss.</p>
       </div>
       <div class="block-media">
         <video src="../media/venator/enemy-ai.mp4" poster="../media/venator/enemy-ai.jpg" controls muted playsinline preload="metadata"></video>
@@ -101,6 +102,18 @@
 <span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">maxActivationDistance</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">10f</span><span class="c-p">;</span></span></code></pre>
           <p class="code-note">Each combat state is a component that designers add to an enemy and tune in the Inspector: its weight, its cooldown, and the distance range it can be used from.</p>
         </figure>
+        <!-- Editor screenshots: what designers work with. Clickable to enlarge. -->
+        <figure class="editor-shots">
+          <ul class="gallery inspector">
+            <li><a href="../media/venator/inspector-enemy-fsm.png" data-caption="Enemy FSM settings in the Inspector">
+              <img src="../media/venator/inspector-enemy-fsm.png" alt="Unity Inspector for Enemy Fsm: starting state, attack cooldown, enter-combat distance, view angle and height difference, stopping distance, combat states holder, patrol points and sightline mask" loading="lazy">
+            </a></li>
+            <li><a href="../media/venator/inspector-combat-states.png" data-caption="Combat states on an enemy, each with its own weight, cooldown and distance range">
+              <img src="../media/venator/inspector-combat-states.png" alt="Unity Inspector showing Light Attack, Move To and Heavy Attack combat state components, each with state weight, cooldown, use distance and min and max activation distance" loading="lazy">
+            </a></li>
+          </ul>
+          <p class="code-note">The same settings in the editor. The headers in the code above become the labels designers read, and each enemy gets its own mix of combat states on a combat config object.</p>
+        </figure>
         <figure class="code">
           <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs#L340-L357">EnemyFsm.cs, lines 340–357</a></figcaption>
           <pre><code style="counter-reset: line 339"><span class="line"><span class="c-w">        </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">0f</span><span class="c-p">;</span></span>
@@ -126,11 +139,143 @@
       </div>
     </section>
 
+    <!-- The full chain from decision to animation. Excerpts copied unchanged from the VenatorUnity repository. -->
+    <section class="block full">
+      <div class="block-text">
+        <h2>From decision to animation</h2>
+        <p>I also implemented all of Venator's animations, along with all of its audio in FMOD. This is the path an enemy attack takes through the code, from the state machine's decision to the animation playing and back again.</p>
+      </div>
+      <!-- Animator screenshots. To swap in sharper ones, replace these two files and keep the names. -->
+      <ul class="gallery diagrams">
+        <li><figure>
+          <a href="../media/venator/animator-player.png" data-caption="Player Animator controller">
+            <img src="../media/venator/animator-player.png" alt="Unity Animator graph for the player: a central movement blend tree connected to heal, casting, element charging, dodge roll, falling and an attack sub-state machine, with hit reactions and death from Any State" loading="lazy">
+          </a>
+          <figcaption>Player Animator controller</figcaption>
+        </figure></li>
+        <li><figure>
+          <a href="../media/venator/animator-enemy.png" data-caption="Enemy Animator controller">
+            <img src="../media/venator/animator-enemy.png" alt="Unity Animator graph for an enemy: idle, walk and run blend trees, jumps, a slide attack and a three-hit root-motion slash combo" loading="lazy">
+          </a>
+          <figcaption>Enemy Animator controller</figcaption>
+        </figure></li>
+      </ul>
+      <ol class="chain">
+        <li>
+          <h3>The state machine enters the attack</h3>
+          <p class="code-note">After picking the best combat state, the FSM starts the shared attack cooldown and enters the state.</p>
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs#L249-L256">EnemyFsm.cs, lines 249–256</a></figcaption>
+            <pre><code style="counter-reset: line 248"><span class="line"><span class="c-w">        </span><span class="c-k">if</span><span class="c-p">(</span><span class="c-n">newState</span><span class="c-p">.</span><span class="c-n">GetCombatActionType</span><span class="c-p">()</span><span class="c-w"> </span><span class="c-o">==</span><span class="c-w"> </span><span class="c-n">FsmCombatActionType</span><span class="c-p">.</span><span class="c-n">AttackAction</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">m_onGeneralAtkCooldown</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">true</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">        </span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">m_currentCombatState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">newState</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">m_currentCombatState</span><span class="c-p">.</span><span class="c-n">EnterState</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">}</span></span></code></pre>
+          </figure>
+        </li>
+        <li>
+          <h3>The attack state asks for the attack</h3>
+          <p class="code-note">The heavy attack state passes the request on to the enemy's movement and animation controller.</p>
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/CombatStates/HeavyAttackCombatState.cs#L16-L20">HeavyAttackCombatState.cs, lines 16–20</a></figcaption>
+            <pre><code style="counter-reset: line 15"><span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">override</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">EnterState</span><span class="c-p">()</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">base</span><span class="c-p">.</span><span class="c-n">EnterState</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">fsmOwner</span><span class="c-p">.</span><span class="c-n">npcFsmController</span><span class="c-p">.</span><span class="c-n">DoHeavyAttack</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">}</span></span></code></pre>
+          </figure>
+        </li>
+        <li>
+          <h3>The controller plays the animation</h3>
+          <p class="code-note">It stops syncing movement with navigation, so the attack's root motion takes over, and fires the Animator trigger.</p>
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/Characters/FsmRootMotionController.cs#L212-L216">FsmRootMotionController.cs, lines 212–216</a></figcaption>
+            <pre><code style="counter-reset: line 211"><span class="line"><span class="c-w">        </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">DoHeavyAttack</span><span class="c-p">()</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">m_doSyncMovement</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">false</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">m_animator</span><span class="c-p">.</span><span class="c-n">SetTrigger</span><span class="c-p">(</span><span class="c-n">HeavyAttack</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span></code></pre>
+          </figure>
+        </li>
+        <li>
+          <h3>The animation switches the hitbox on and off</h3>
+          <p class="code-note">Animation events on the attack clip call this during the swing. Zero turns the hitbox off, and any other value turns it on and doubles as a damage multiplier.</p>
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/Characters/FsmRootMotionController.cs#L93-L101">FsmRootMotionController.cs, lines 93–101</a></figcaption>
+            <pre><code style="counter-reset: line 92"><span class="line"><span class="c-w">        </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">ToggleMainHitbox</span><span class="c-p">(</span><span class="c-kt">int</span><span class="c-w"> </span><span class="c-n">toggleState</span><span class="c-p">)</span><span class="c-w"> </span><span class="c-c1">//Called from animation</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">dmgMultiplier</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">toggleState</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">if</span><span class="c-p">(</span><span class="c-n">toggleState</span><span class="c-w"> </span><span class="c-o">==</span><span class="c-w"> </span><span class="c-mi">0</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">mainHitbox</span><span class="c-p">.</span><span class="c-n">DoToggleHitbox</span><span class="c-p">(</span><span class="c-k">false</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-mf">1f</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">else</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">mainHitbox</span><span class="c-p">.</span><span class="c-n">DoToggleHitbox</span><span class="c-p">(</span><span class="c-k">true</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">dmgMultiplier</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span></code></pre>
+          </figure>
+        </li>
+        <li>
+          <h3>The state watches the Animator</h3>
+          <p class="code-note">While the attack plays, the FSM updates the state every frame. When the Animator is heading into a state tagged Movement, the attack has finished. If an Any State transition cuts in, for example when the enemy is hit, the attack is aborted.</p>
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/CombatStates/HeavyAttackCombatState.cs#L32-L42">HeavyAttackCombatState.cs, lines 32–42</a></figcaption>
+            <pre><code style="counter-reset: line 31"><span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">override</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">UpdateState</span><span class="c-p">()</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">fsmOwner</span><span class="c-p">.</span><span class="c-n">animator</span><span class="c-p">.</span><span class="c-n">GetNextAnimatorStateInfo</span><span class="c-p">(</span><span class="c-mi">0</span><span class="c-p">).</span><span class="c-n">IsTag</span><span class="c-p">(</span><span class="c-s">"Movement"</span><span class="c-p">))</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">ExitState</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">else</span><span class="c-w"> </span><span class="c-nf">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">fsmOwner</span><span class="c-p">.</span><span class="c-n">animator</span><span class="c-p">.</span><span class="c-n">GetAnimatorTransitionInfo</span><span class="c-p">(</span><span class="c-mi">0</span><span class="c-p">).</span><span class="c-n">anyState</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">AbortState</span><span class="c-p">(</span><span class="c-k">true</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">}</span></span></code></pre>
+          </figure>
+        </li>
+        <li>
+          <h3>Control goes back to the state machine</h3>
+          <p class="code-note">Exiting starts this state's own cooldown and tells the FSM, which picks the next action, and the loop starts again.</p>
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/FsmCombatState.cs#L50-L56">FsmCombatState.cs, lines 50–56</a></figcaption>
+            <pre><code style="counter-reset: line 49"><span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">virtual</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">ExitState</span><span class="c-p">()</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">m_inState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">false</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">m_onCooldown</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">true</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">StartCoroutine</span><span class="c-p">(</span><span class="c-n">DoStateCooldown</span><span class="c-p">());</span><span class="c-w"> </span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">fsmOwner</span><span class="c-p">.</span><span class="c-n">OnDidExitCombatState</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">}</span></span></code></pre>
+          </figure>
+        </li>
+      </ol>
+      <!-- Root motion and navigation. Excerpt copied unchanged from the VenatorUnity repository. -->
+      <div class="root-sync-wrap">
+      <div class="block-text root-sync">
+        <h3>Keeping root motion and navigation in sync</h3>
+        <p class="code-note">The enemies move with root-motion animation, but the AI steers them with Unity's NavMesh. Each frame, the animation's root position becomes the enemy's position and is fed back to the NavMesh agent, so animation and navigation never drift apart.</p>
+      </div>
+      <figure class="code">
+        <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/Characters/FsmRootMotionController.cs#L377-L385">FsmRootMotionController.cs, lines 377–385</a></figcaption>
+        <pre><code style="counter-reset: line 376"><span class="line"><span class="c-w">        </span><span class="c-k">private</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">OnAnimatorMove</span><span class="c-p">()</span><span class="c-w"> </span><span class="c-c1">//Animator movement - root movement</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">m_isDead</span><span class="c-w"> </span><span class="c-o">||</span><span class="c-w"> </span><span class="c-n">m_isBeingPushed</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-k">return</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">Vector3</span><span class="c-w"> </span><span class="c-n">rootPosition</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">m_animator</span><span class="c-p">.</span><span class="c-n">rootPosition</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">rootPosition</span><span class="c-p">.</span><span class="c-n">y</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">m_navAgent</span><span class="c-p">.</span><span class="c-n">nextPosition</span><span class="c-p">.</span><span class="c-n">y</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">transform</span><span class="c-p">.</span><span class="c-n">position</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">rootPosition</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">m_navAgent</span><span class="c-p">.</span><span class="c-n">nextPosition</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">rootPosition</span><span class="c-p">;</span></span></code></pre>
+        <p class="code-note">The rest of the method handles attack momentum and gravity.</p>
+      </figure>
+      </div>
+    </section>
+
     <!-- Section 2: elemental system -->
     <section class="block flip">
       <div class="block-text">
         <h2>Elemental system</h2>
-        <p>Much of my time went into the elemental system, which interacts with both enemies and objects in the world.</p>
+        <p>Much of my time went into the elemental system, which interacts with both enemies and objects in the world. The damage and health system is part of it.</p>
         <p>At its core is one big interface. Every object that takes part in the system implements it, and objects use it to recognise each other: anything that implements the interface can interact with anything else that does.</p>
       </div>
       <div class="block-media">
@@ -192,7 +337,8 @@
     <section class="block">
       <div class="block-text">
         <h2>Player character</h2>
-        <p>I wrote the initial warp-motion-inspired system for the player character, which another programmer then developed further.</p>
+        <p>Early on I owned the player controller. Starting from a prototype controller, I implemented the moveset we wanted, including the initial warp-motion-inspired system, and built the first version of the player prefab.</p>
+        <p>I then handed it over to another programmer, introducing them to root-motion animation and movement, so I could focus on the enemy AI.</p>
       </div>
       <div class="block-media">
         <video src="../media/venator/gameplay.mp4" poster="../media/venator/gameplay.jpg" controls muted playsinline preload="metadata"></video>
@@ -203,6 +349,7 @@
       <div class="block-text">
         <h2>Looking back</h2>
         <p>Venator was developed over four weeks and was overscoped from the start. Combat and game feel suffered for it, and we should have prioritized them much more. We knew we were overscoping going in, but kept going against our better judgement.</p>
+        <p>In week one I suggested a simple, flexible state machine for the AI, but the team went with GOAP and I didn't argue my case. When GOAP stalled, the switch in week three came too late to polish how the AI and combat felt together. As lead programmer I also took on too much outside that role. Next time I'd make the case for the simpler, proven option early.</p>
       </div>
     </section>
 

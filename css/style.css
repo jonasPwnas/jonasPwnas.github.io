@@ -538,6 +538,31 @@ a:hover { text-decoration-color: var(--green-deep); }
 .code-note { margin: 0.5rem 0 0; font-size: var(--step--1); color: var(--muted); max-width: 70ch; }
 .code-note code { font-family: ui-monospace, Consolas, monospace; font-size: 0.95em; color: var(--ink); }
 
+/* Numbered chain of steps (a real sequence, so numbers carry meaning) */
+.chain { list-style: none; margin: 0.5rem 0 0; padding: 0; counter-reset: step; display: grid; gap: 2rem; }
+.chain > li { counter-increment: step; position: relative; padding-left: 3rem; }
+.chain > li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0;
+  width: 2rem; height: 2rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  font-weight: 700;
+}
+.chain > li::after {           /* line joining the steps */
+  content: "";
+  position: absolute; left: calc(1rem - 1px); top: 2.4rem; bottom: -1.6rem;
+  width: 2px; background: var(--green);
+}
+.chain > li:last-child::after { display: none; }
+.chain h3 { margin: 0.2rem 0 0.25rem; font-size: var(--step-1); }
+.chain .code-note { margin: 0 0 0.75rem; }
+@media (max-width: 760px) { .chain > li { padding-left: 2.6rem; } }
+
+.root-sync { margin: 0.5rem 0 1rem; }
+.root-sync h3 { margin: 0 0 0.3rem; font-size: var(--step-1); }
+
 /* syntax colours: greys plus the site's green */
 .c-k, .c-kt { color: #2b7a52; font-weight: 700; }
 .c-n { color: var(--ink); }
@@ -577,6 +602,20 @@ a:hover { text-decoration-color: var(--green-deep); }
 .gallery a:hover img { transform: scale(1.04); }
 @media (prefers-reduced-motion: reduce) { .gallery a:hover img { transform: none; } }
 .gallery .media-placeholder { aspect-ratio: 16 / 9; display: grid; place-items: center; border-radius: var(--radius); }
+
+/* Diagram gallery: show the whole picture instead of cropping it */
+.gallery.diagrams { margin: 0 0 2.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.gallery.diagrams figure { margin: 0; }
+.gallery.diagrams a { aspect-ratio: 21 / 9; background: #2a2a2a; }
+.gallery.diagrams img { object-fit: contain; }
+.gallery.diagrams figcaption { margin-top: 0.45rem; font-size: var(--step--1); color: var(--muted); }
+
+/* Editor screenshots: keep their natural shape, side by side */
+.editor-shots { margin: 0; }
+.gallery.inspector { margin: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); align-items: start; max-width: 46rem; }
+.gallery.inspector a { aspect-ratio: auto; background: #282828; }
+.gallery.inspector img { height: auto; }
+.editor-shots .code-note { margin-top: 0.6rem; }
 
 /* ---------- Lightbox ---------- */
 
