@@ -509,7 +509,7 @@ a:hover { text-decoration-color: var(--green-deep); }
 /* ---------- Code excerpts ---------- */
 
 .code-list { display: grid; gap: 1.75rem; margin-top: 0.5rem; }
-.code { margin: 0; max-width: 52rem; }
+.code { margin: 0; }
 .code figcaption { font-size: var(--step--1); margin-bottom: 0.4rem; }
 .code figcaption a { color: var(--muted); }
 .code pre {
@@ -536,6 +536,7 @@ a:hover { text-decoration-color: var(--green-deep); }
   user-select: none;
 }
 .code-note { margin: 0.5rem 0 0; font-size: var(--step--1); color: var(--muted); max-width: 70ch; }
+.code-note code { font-family: ui-monospace, Consolas, monospace; font-size: 0.95em; color: var(--ink); }
 
 /* syntax colours: greys plus the site's green */
 .c-k, .c-kt { color: #2b7a52; font-weight: 700; }

@@ -52,15 +52,15 @@
       </div>
     </section>
 
-    <!-- Code excerpts, copied unchanged from the repository. Links go to the exact lines on GitHub. -->
+    <!-- Code excerpts, copied unchanged from the VenatorUnity repository. Links go to the exact lines on GitHub. -->
     <section class="block full">
       <div class="block-text">
         <h2>How the state machine works</h2>
-        <p>Short excerpts from the source. The full project is <a href="https://github.com/jonasPwnas/FgAiAssignment">on GitHub</a>.</p>
+        <p>Short excerpts from the source, unchanged. The full game project is <a href="https://github.com/jonasPwnas/VenatorUnity">on GitHub</a>, and there's also a <a href="https://github.com/jonasPwnas/FgAiAssignment">cleaned-up version</a> that shows the enemies in a simple test scene.</p>
       </div>
       <div class="code-list">
         <figure class="code">
-          <figcaption><a href="https://github.com/jonasPwnas/FgAiAssignment/blob/f09babca728e27b3254831c87fdb889e277fc531/Assets/MainScripts/Enemy/EnemyFsm.cs#L12-L34">EnemyFsm.cs, lines 12–34</a></figcaption>
+          <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs#L12-L34">EnemyFsm.cs, lines 12–34</a></figcaption>
           <pre><code style="counter-reset: line 11"><span class="line"><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">enum</span><span class="c-w"> </span><span class="c-n">FsmEnemyStates</span></span>
 <span class="line"><span class="c-p">{</span></span>
 <span class="line"><span class="c-w">    </span><span class="c-n">Idle</span><span class="c-p">,</span></span>
@@ -87,7 +87,7 @@
           <p class="code-note">The two tiers. The main states decide what the enemy is doing overall. Once it's in combat, a second tier of combat states decides its next action.</p>
         </figure>
         <figure class="code">
-          <figcaption><a href="https://github.com/jonasPwnas/FgAiAssignment/blob/f09babca728e27b3254831c87fdb889e277fc531/Assets/MainScripts/Enemy/FsmCombatState.cs#L7-L17">FsmCombatState.cs, lines 7–17</a></figcaption>
+          <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/FsmCombatState.cs#L7-L17">FsmCombatState.cs, lines 7–17</a></figcaption>
           <pre><code style="counter-reset: line 6"><span class="line"><span class="c-w">    </span><span class="c-na">[Header("We use this value to prioritize actions when several are available, higher value = more important")]</span></span>
 <span class="line"><span class="c-w">    </span><span class="c-na">[Range(0.001f, 9f)]</span></span>
 <span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">stateWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">4f</span><span class="c-p">;</span></span>
@@ -102,7 +102,7 @@
           <p class="code-note">Each combat state is a component that designers add to an enemy and tune in the Inspector: its weight, its cooldown, and the distance range it can be used from.</p>
         </figure>
         <figure class="code">
-          <figcaption><a href="https://github.com/jonasPwnas/FgAiAssignment/blob/f09babca728e27b3254831c87fdb889e277fc531/Assets/MainScripts/Enemy/EnemyFsm.cs#L340-L357">EnemyFsm.cs, lines 340–357</a></figcaption>
+          <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs#L340-L357">EnemyFsm.cs, lines 340–357</a></figcaption>
           <pre><code style="counter-reset: line 339"><span class="line"><span class="c-w">        </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">0f</span><span class="c-p">;</span></span>
 <span class="line"><span class="c-w">        </span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">;</span></span>
 <span class="line"></span>
@@ -131,9 +131,60 @@
       <div class="block-text">
         <h2>Elemental system</h2>
         <p>Much of my time went into the elemental system, which interacts with both enemies and objects in the world.</p>
+        <p>At its core is one big interface. Every object that takes part in the system implements it, and objects use it to recognise each other: anything that implements the interface can interact with anything else that does.</p>
       </div>
       <div class="block-media">
         <video src="../media/venator/elements.mp4" poster="../media/venator/elements.jpg" controls muted playsinline preload="metadata"></video>
+      </div>
+    </section>
+
+    <!-- Code excerpts, copied unchanged from the VenatorUnity repository. Links go to the exact lines on GitHub. -->
+    <section class="block full">
+      <div class="block-text">
+        <h2>How the elemental system works</h2>
+      </div>
+      <div class="code-list">
+        <figure class="code">
+          <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/IDamageableElementalSource.cs#L4-L17">IDamageableElementalSource.cs, lines 4–17</a></figcaption>
+          <pre><code style="counter-reset: line 3"><span class="line"><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">interface</span><span class="c-w"> </span><span class="c-n">IDamageableElementalSource</span></span>
+<span class="line"><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-c1">//public HitInfo GetHitInfo(HitInfo hitInfo);</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">enum</span><span class="c-w"> </span><span class="c-n">ElementInteractType</span><span class="c-p">{</span><span class="c-n">Enemy</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Source</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">User</span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-nf">ChargeElementTime</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">TakeDamage</span><span class="c-p">(</span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">damageAmount</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">ElementTypes</span><span class="c-p">.</span><span class="c-n">ElementType</span><span class="c-w"> </span><span class="c-n">elementType</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">UsedSword</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">Heal</span><span class="c-p">(</span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">healAmount</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">ElementTypes</span><span class="c-p">.</span><span class="c-n">ElementType</span><span class="c-w"> </span><span class="c-n">elementType</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-n">ElementInteractType</span><span class="c-w"> </span><span class="c-nf">InteractType</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">int</span><span class="c-w"> </span><span class="c-nf">EquippedElementAmount</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">int</span><span class="c-w"> </span><span class="c-nf">ElementAmountToGive</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-n">ElementTypes</span><span class="c-p">.</span><span class="c-n">ElementType</span><span class="c-w"> </span><span class="c-n">GetSourceElement</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">AddElement</span><span class="c-p">(</span><span class="c-n">ElementTypes</span><span class="c-p">.</span><span class="c-n">ElementType</span><span class="c-w"> </span><span class="c-n">elementType</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">int</span><span class="c-w"> </span><span class="c-n">amount</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">fromCharge</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">RemoveElement</span><span class="c-p">(</span><span class="c-n">ElementTypes</span><span class="c-p">.</span><span class="c-n">ElementType</span><span class="c-w"> </span><span class="c-n">elementType</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">int</span><span class="c-w"> </span><span class="c-n">amount</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-p">}</span></span></code></pre>
+          <p class="code-note">The interface. Enemies, the player and elemental pickups all implement it, and <code>InteractType()</code> tells others which kind of object they've found.</p>
+        </figure>
+        <figure class="code">
+          <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyStatus.cs#L270-L273">EnemyStatus.cs, lines 270–273</a></figcaption>
+          <pre><code style="counter-reset: line 269"><span class="line"><span class="c-w">    </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-n">IDamageableElementalSource</span><span class="c-p">.</span><span class="c-n">ElementInteractType</span><span class="c-w"> </span><span class="c-n">InteractType</span><span class="c-p">()</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">IDamageableElementalSource</span><span class="c-p">.</span><span class="c-n">ElementInteractType</span><span class="c-p">.</span><span class="c-n">Enemy</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">}</span></span></code></pre>
+          <p class="code-note">An enemy's side of it: it reports itself as an <code>Enemy</code>.</p>
+        </figure>
+        <figure class="code">
+          <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/CombatCollision/PlayerHitboxHandler.cs#L53-L63">PlayerHitboxHandler.cs, lines 53–63</a></figcaption>
+          <pre><code style="counter-reset: line 52"><span class="line"><span class="c-w">    </span><span class="c-k">private</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">OnTriggerEnter</span><span class="c-p">(</span><span class="c-n">Collider</span><span class="c-w"> </span><span class="c-n">other</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">other</span><span class="c-p">.</span><span class="c-n">GetComponent</span><span class="c-o">&lt;</span><span class="c-n">IDamageableElementalSource</span><span class="c-o">&gt;</span><span class="c-p">()</span><span class="c-w"> </span><span class="c-o">!=</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">IDamageableElementalSource</span><span class="c-w"> </span><span class="c-n">target</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">other</span><span class="c-p">.</span><span class="c-n">GetComponent</span><span class="c-o">&lt;</span><span class="c-n">IDamageableElementalSource</span><span class="c-o">&gt;</span><span class="c-p">();</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">print</span><span class="c-p">(</span><span class="c-s">"try dealt  "</span><span class="c-w"> </span><span class="c-o">+</span><span class="c-w"> </span><span class="c-n">m_playerStatus</span><span class="c-p">.</span><span class="c-n">GetSourceElement</span><span class="c-p">()</span><span class="c-w"> </span><span class="c-o">+</span><span class="c-w"> </span><span class="c-s">"  damage?"</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">switch</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">target</span><span class="c-p">.</span><span class="c-n">InteractType</span><span class="c-p">())</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-k">case</span><span class="c-w"> </span><span class="c-n">IDamageableElementalSource</span><span class="c-p">.</span><span class="c-n">ElementInteractType</span><span class="c-p">.</span><span class="c-n">Enemy</span><span class="c-p">:</span></span></code></pre>
+          <p class="code-note">Using it. When the sword hits something, it checks whether the object implements the interface, then asks what kind of object it is to decide what happens. The switch continues in the full file.</p>
+        </figure>
       </div>
     </section>
 
