@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Venator, Jonas Petersson</title>
+  <meta name="description" content="A four-week Soulslike made at Futuregames: a designer-configurable enemy state machine used on every enemy, an elemental system and early player tech, in Unity and C#.">
+  <meta property="og:image" content="https://jonaspwnas.com/media/venator/poster.jpg">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-name" href="../">Jonas Petersson</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../#work">Work</a>
+        <a href="../#about">About</a>
+        <a href="../#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back" href="../#work">All work</a>
+
+    <!-- Key-art header: the game's logo is the page title -->
+    <div class="keyart">
+      <img class="keyart-bg" src="../media/venator/keyart.jpg" alt="">
+      <h1><img src="../media/venator/logo.png" alt="Venator" width="800" height="312"></h1>
+    </div>
+
+    <header class="project-head">
+      <p class="summary">A four-week Soulslike made at Futuregames. I built the enemy state machine used by every enemy in the game, the elemental system, and the first version of the player character's warp-motion-inspired system.</p>
+    </header>
+
+    <dl class="facts">
+      <div><dt>Team</dt><dd>Futuregames Team 6</dd></div>
+      <div><dt>Duration</dt><dd>4 weeks</dd></div>
+      <div><dt>Genre</dt><dd>Soulslike</dd></div>
+      <div><dt>Tech</dt><dd>Unity, C#</dd></div>
+    </dl>
+
+    <!-- Section 1: enemy AI -->
+    <section class="block">
+      <div class="block-text">
+        <h2>A state machine for every enemy</h2>
+        <p>I built a two-tiered state machine that designers could easily configure in the editor, using weights and attack pools to shape how each enemy fights.</p>
+        <p>It was used on every enemy in the game.</p>
+      </div>
+      <div class="block-media">
+        <video src="../media/venator/enemy-ai.mp4" poster="../media/venator/enemy-ai.jpg" controls muted playsinline preload="metadata"></video>
+      </div>
+    </section>
+
+    <!-- Code excerpts, copied unchanged from the repository. Links go to the exact lines on GitHub. -->
+    <section class="block full">
+      <div class="block-text">
+        <h2>How the state machine works</h2>
+        <p>Short excerpts from the source. The full project is <a href="https://github.com/jonasPwnas/FgAiAssignment">on GitHub</a>.</p>
+      </div>
+      <div class="code-list">
+        <figure class="code">
+          <figcaption><a href="https://github.com/jonasPwnas/FgAiAssignment/blob/f09babca728e27b3254831c87fdb889e277fc531/Assets/MainScripts/Enemy/EnemyFsm.cs#L12-L34">EnemyFsm.cs, lines 12–34</a></figcaption>
+          <pre><code style="counter-reset: line 11"><span class="line"><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">enum</span><span class="c-w"> </span><span class="c-n">FsmEnemyStates</span></span>
+<span class="line"><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">Idle</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">Patrol</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">Combat</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">Dead</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">Stunned</span></span>
+<span class="line"><span class="c-p">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-k">public</span><span class="c-w"> </span><span class="c-k">enum</span><span class="c-w"> </span><span class="c-n">FsmEnemyCombat</span></span>
+<span class="line"><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">CombatIdle</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">MoveTo</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">MoveAway</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">AttackCombo</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">LightAttack</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">HeavyAttack</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">RangedAttack</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">JumpAway</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">JumpToPlayer</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">Hit</span><span class="c-p">,</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-n">KnockedDown</span></span>
+<span class="line"><span class="c-p">}</span></span></code></pre>
+          <p class="code-note">The two tiers. The main states decide what the enemy is doing overall. Once it's in combat, a second tier of combat states decides its next action.</p>
+        </figure>
+        <figure class="code">
+          <figcaption><a href="https://github.com/jonasPwnas/FgAiAssignment/blob/f09babca728e27b3254831c87fdb889e277fc531/Assets/MainScripts/Enemy/FsmCombatState.cs#L7-L17">FsmCombatState.cs, lines 7–17</a></figcaption>
+          <pre><code style="counter-reset: line 6"><span class="line"><span class="c-w">    </span><span class="c-na">[Header("We use this value to prioritize actions when several are available, higher value = more important")]</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[Range(0.001f, 9f)]</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">stateWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">4f</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[Header("The time it takes before we can enter this state again")]</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">private</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">stateCooldown</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">2.5f</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[Header("Is distance a factor for activating this state?")]</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">private</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">useDistance</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">true</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[Header("The closest we can be to target to activate the state")]</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">minActivationDistance</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">1f</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[Header("The furthest we can be to target to activate the state")]</span></span>
+<span class="line"><span class="c-w">    </span><span class="c-na">[SerializeField]</span><span class="c-w"> </span><span class="c-k">public</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">maxActivationDistance</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">10f</span><span class="c-p">;</span></span></code></pre>
+          <p class="code-note">Each combat state is a component that designers add to an enemy and tune in the Inspector: its weight, its cooldown, and the distance range it can be used from.</p>
+        </figure>
+        <figure class="code">
+          <figcaption><a href="https://github.com/jonasPwnas/FgAiAssignment/blob/f09babca728e27b3254831c87fdb889e277fc531/Assets/MainScripts/Enemy/EnemyFsm.cs#L340-L357">EnemyFsm.cs, lines 340–357</a></figcaption>
+          <pre><code style="counter-reset: line 339"><span class="line"><span class="c-w">        </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">0f</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">;</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">foreach</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-w"> </span><span class="c-k">in</span><span class="c-w"> </span><span class="c-n">avaliableCombatStates</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">stateWeight</span><span class="c-w"> </span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">stateWeight</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">==</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">m_combatIdleStates</span><span class="c-p">[</span><span class="c-mi">0</span><span class="c-p">];</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-p">;</span></span></code></pre>
+          <p class="code-note">Choosing the next action. The enemy gathers the combat states it can enter right now, from its attacks first, then movement, then idle, and picks the one with the highest weight.</p>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Section 2: elemental system -->
+    <section class="block flip">
+      <div class="block-text">
+        <h2>Elemental system</h2>
+        <p>Much of my time went into the elemental system, which interacts with both enemies and objects in the world.</p>
+      </div>
+      <div class="block-media">
+        <video src="../media/venator/elements.mp4" poster="../media/venator/elements.jpg" controls muted playsinline preload="metadata"></video>
+      </div>
+    </section>
+
+    <!-- Section 3: player character -->
+    <section class="block">
+      <div class="block-text">
+        <h2>Player character</h2>
+        <p>I wrote the initial warp-motion-inspired system for the player character, which another programmer then developed further.</p>
+      </div>
+      <div class="block-media">
+        <video src="../media/venator/gameplay.mp4" poster="../media/venator/gameplay.jpg" controls muted playsinline preload="metadata"></video>
+      </div>
+    </section>
+
+    <section class="block full">
+      <div class="block-text">
+        <h2>Looking back</h2>
+        <p>Venator was overscoped for four weeks, and combat and game feel suffered for it. We knew that going in, but kept going against our better judgement.</p>
+      </div>
+    </section>
+
+    <nav class="next" aria-label="More projects">
+      <a href="../#work">All work</a>
+      <a class="btn btn-ghost" href="cpr-training.html">Next: CPR Training Team Simulator</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Jonas Petersson, 2026. Venator was made by Futuregames Team 6.</div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPR Training Team Simulator, Jonas Petersson</title>
+  <meta name="description" content="NPC helper behaviours, a real-to-virtual training dummy and hand-tracking input for a VR CPR training simulator at Alteruna, built in C# and Unity.">
+  <meta property="og:image" content="https://jonaspwnas.com/media/cpr-training/poster.jpg">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-name" href="../">Jonas Petersson</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../#work">Work</a>
+        <a href="../#about">About</a>
+        <a href="../#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back" href="../#work">All work</a>
+
+    <!-- Header with the cover art beside the title -->
+    <header class="project-head with-cover">
+      <div>
+        <h1>CPR Training Team Simulator</h1>
+        <p class="summary">A VR simulator for CPR training at Alteruna. I built shared behaviours for NPC helpers, linked a real training dummy to the virtual one, and developed hand-tracking input, all in C# and Unity.</p>
+      </div>
+      <img class="cover" src="../media/cpr-training/cover.jpg" alt="Alteruna CPR Training Team Simulator cover: a woman performing CPR on a man in a virtual training room" width="657" height="928">
+    </header>
+
+    <video class="hero-media" src="../media/cpr-training/hand-tracking-hero.mp4" poster="../media/cpr-training/hand-tracking-hero.jpg" controls muted playsinline preload="metadata"></video>
+
+    <dl class="facts">
+      <div><dt>Studio</dt><dd>Alteruna</dd></div>
+      <div><dt>Years</dt><dd>2020–2022, unreleased</dd></div>
+      <div><dt>Platform</dt><dd>VR</dd></div>
+      <div><dt>My focus</dt><dd>NPC behaviour, VR interaction, hand tracking</dd></div>
+      <div><dt>Tech</dt><dd>Unity, C#</dd></div>
+    </dl>
+
+    <!-- Section 1: NPC helpers -->
+    <section class="block">
+      <div class="block-text">
+        <h2>NPC helpers during CPR training</h2>
+        <p>I created shared behaviours for a group of NPCs that change depending on what the player does and what state the other NPCs are in. I implemented their animations, audio and behaviours using C# and Unity's tools.</p>
+        <p>The player's job was to tell the NPCs what to do while starting CPR on the patient.</p>
+        <p>In the first version, delegation was automatically sequential: each time the player interacted with an NPC, it was given the next unique command. This was later opened up to voice commands from the player.</p>
+      </div>
+      <div class="block-media">
+        <video src="../media/cpr-training/npc-helpers.mp4" poster="../media/cpr-training/npc-helpers.jpg" controls muted playsinline preload="metadata"></video>
+      </div>
+    </section>
+
+    <!-- Section 2: real and virtual dummy -->
+    <section class="block flip">
+      <div class="block-text">
+        <h2>Real and virtual world connection</h2>
+        <p>All certified CPR training has to be done on a dummy, because trainees need to feel how much force it actually takes to perform CPR properly.</p>
+        <p>We solved this by placing the dummy and a controller in a shared, fixed position in the real world, then configuring the virtual dummy to sit in the same position relative to the controller.</p>
+        <p>This also helped immerse the player. We used audio and in-game events to put them under stress, bringing the experience closer to a real CPR scenario.</p>
+      </div>
+      <div class="block-media">
+        <figure class="square">
+          <video src="../media/cpr-training/real-dummy.mp4" poster="../media/cpr-training/real-dummy.jpg" controls muted playsinline preload="metadata"></video>
+          <figcaption>Hands on the real dummy, mirrored by the virtual hands on screen.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Section 3: hand tracking -->
+    <section class="block">
+      <div class="block-text">
+        <h2>Hand-tracking interactions</h2>
+        <p>Hand tracking lets the user interact with their actual hands instead of controllers. I iterated on several versions of this new kind of input system, and they fall into two categories.</p>
+        <h3>Gesture based</h3>
+        <p>I developed a tool for recording hand gestures, and a system that recognises those gestures and responds by invoking an event. It was very interesting to work out the most common ways people grab or point at something, while covering as many edge cases as possible.</p>
+        <h3>Physics based</h3>
+        <p>Using Unity's physics components, I set up hands that took the position data from the hand-tracking input and fed it into the physics simulation. This gave accurate collisions and a feeling of weight in the hands, but it wasn't a good fit for delicate interactions.</p>
+      </div>
+      <div class="block-media">
+        <video src="../media/cpr-training/gesture-grab.mp4" poster="../media/cpr-training/gesture-grab.jpg" controls muted playsinline preload="metadata"></video>
+        <figure class="pair">
+          <img src="../media/cpr-training/hand.jpg" alt="A hand reaching out, fingers curled as if about to grab something" loading="lazy">
+          <img src="../media/cpr-training/controller-interface.jpg" alt="C# code: abstract methods GetTriggerValue, documented as index finger, and GetGripValue, documented as middle finger" loading="lazy">
+          <figcaption>Finger input mapped to controller-style values: the index finger drives the trigger, the middle finger the grip.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <nav class="next" aria-label="More projects">
+      <a href="../#work">All work</a>
+      <a class="btn btn-ghost" href="goat-simulator-3.html">Next: Goat Simulator 3</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Jonas Petersson, 2026. CPR Training Team Simulator footage and art belong to Alteruna.</div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
