@@ -249,7 +249,7 @@ a:hover { text-decoration-color: var(--select); }
 .about-grid p { margin: 0 0 1.1rem; max-width: 60ch; }
 .about-grid .lead { font-size: var(--step-1); line-height: 1.45; }
 
-.skills { margin: 0; display: grid; gap: 1.25rem; }
+.skills { margin: 0; display: grid; gap: 1.25rem; align-content: start; }
 .skills dt { font-weight: 700; margin-bottom: 0.2rem; }
 .skills dd { margin: 0; color: var(--muted); }
 
