@@ -140,6 +140,46 @@
       </div>
     </section>
 
+    <!-- Interactive attack-range viewer. Logic and values live in js/venator-ranges.js (taken from the enemy prefabs). -->
+    <section class="block full">
+      <div class="block-text">
+        <h2>Try the combat states</h2>
+        <p>Each ring is a combat state's activation range, with the values the enemies shipped with. Drag the player around the enemy, or use the slider, to see which state the FSM would pick. You can change the numbers just like a designer would in the Inspector.</p>
+      </div>
+      <div class="range-viewer" id="range-viewer">
+        <div class="rv-toolbar">
+          <div class="rv-seg" role="group" aria-label="Enemy">
+            <button type="button" data-enemy="boss" aria-pressed="true">Boss</button>
+            <button type="button" data-enemy="sword" aria-pressed="false">Sword enemy</button>
+            <button type="button" data-enemy="crawler" aria-pressed="false">Crawler</button>
+          </div>
+          <div class="rv-seg" role="group" aria-label="View">
+            <button type="button" data-zoom="close" aria-pressed="true">Close up</button>
+            <button type="button" data-zoom="full" aria-pressed="false">Full range</button>
+          </div>
+        </div>
+        <div class="rv-body">
+          <div class="rv-map">
+            <svg viewBox="0 0 480 480" role="img" aria-label="Top-down view of the enemy's attack ranges and the player's position"></svg>
+            <label class="rv-slider">
+              <span>Distance to player</span>
+              <input class="rv-distance" type="range" min="0" max="6" step="0.1" value="2.2">
+              <output class="rv-distance-out">2.2 m</output>
+            </label>
+          </div>
+          <div class="rv-panel">
+            <p class="rv-result" aria-live="polite"></p>
+            <ul class="rv-states"></ul>
+            <div class="rv-foot">
+              <label class="rv-check"><input class="rv-general" type="checkbox"> General attack cooldown running</label>
+              <button type="button" class="rv-reset">Reset values</button>
+            </div>
+          </div>
+        </div>
+        <p class="code-note">Attacks are checked first unless the general attack cooldown is running, then movement, then idle. Within that pool, the state with the highest weight wins. Move away ignores its distance settings: its <code>CanEnter</code> is hard-coded to under 2.5 m.</p>
+      </div>
+    </section>
+
     <!-- The full chain from decision to animation. Excerpts copied unchanged from the VenatorUnity repository. -->
     <section class="block full">
       <div class="block-text">
@@ -355,9 +395,9 @@
     </section>
 
     <nav class="next" aria-label="More projects">
-      <a class="btn btn-ghost" href="bramble.html">Previous: Bramble</a>
+      <a class="btn btn-ghost" href="goat-simulator-3.html">Previous: Goat Simulator 3</a>
       <a href="../#work">All work</a>
-      <a class="btn btn-ghost" href="cpr-training.html">Next: CPR Training Team Simulator</a>
+      <a class="btn btn-ghost" href="bramble.html">Next: Bramble</a>
     </nav>
   </main>
 
@@ -366,5 +406,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="../js/venator-ranges.js"></script>
 </body>
 </html>
