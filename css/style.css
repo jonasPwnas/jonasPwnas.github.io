@@ -516,7 +516,7 @@ a:hover { text-decoration-color: var(--green-deep); }
 
 /* ---------- Code excerpts ---------- */
 
-.code-list { display: grid; gap: 1.75rem; margin-top: 0.5rem; }
+.code-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.75rem; margin-top: 0.5rem; }
 .code { margin: 0; }
 .code figcaption { font-size: var(--step--1); margin-bottom: 0.4rem; }
 .code figcaption a { color: var(--muted); }
@@ -547,7 +547,7 @@ a:hover { text-decoration-color: var(--green-deep); }
 .code-note code { font-family: ui-monospace, Consolas, monospace; font-size: 0.95em; color: var(--ink); }
 
 /* Numbered chain of steps (a real sequence, so numbers carry meaning) */
-.chain { list-style: none; margin: 0.5rem 0 0; padding: 0; counter-reset: step; display: grid; gap: 2rem; }
+.chain { list-style: none; margin: 0.5rem 0 0; padding: 0; counter-reset: step; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
 .chain > li { counter-increment: step; position: relative; padding-left: 3rem; }
 .chain > li::before {
   content: counter(step);
@@ -579,6 +579,9 @@ a:hover { text-decoration-color: var(--green-deep); }
 .c-s, .c-s2 { color: #b3cf86; }
 .c-c1, .c-cm, .c-cs { color: #7f8681; font-style: italic; }
 .c-o, .c-p { color: #a59d92; }
+.c-nf { color: var(--ink); font-weight: 700; }
+.c-nb, .c-kc { color: #6fc6c1; }
+.c-cp, .c-cpf { color: #9aa59e; }
 
 /* ---------- Gallery ---------- */
 
@@ -767,3 +770,110 @@ a:hover { text-decoration-color: var(--green-deep); }
   .rv-seg button { flex: 1; padding-inline: 0.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { .rv-row { transition: none; } }
+
+
+/* ---------- Problem / What I built / Result pages ---------- */
+/* Used on pages split into 1 to 3 "parts". Each part has the same three steps.
+   Copy a <section class="part"> block to add one, and add a matching card to .parts. */
+
+.parts-intro { padding-top: clamp(2rem, 5vw, 3.5rem); }
+.parts-intro h2 { margin: 0 0 1rem; font-size: var(--step-2); letter-spacing: -0.02em; }
+.parts {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem;
+  counter-reset: part;
+}
+.parts a {
+  display: grid; gap: 0.35rem; height: 100%;
+  padding: 1.1rem 1.25rem 1.25rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  text-decoration: none; transition: border-color 0.15s, background 0.15s;
+}
+.parts a:hover { border-color: var(--green-deep); background: var(--green-wash); }
+.parts .part-num { font-size: var(--step--1); font-weight: 700; color: var(--green-deep); letter-spacing: 0.04em; text-transform: uppercase; }
+.parts strong { font-size: var(--step-1); line-height: 1.2; }
+.parts span:last-child { font-size: var(--step--1); color: var(--muted); }
+
+.part { padding-block: clamp(2.5rem, 6vw, 4.5rem); border-top: 1px solid var(--line); scroll-margin-top: 1rem; }
+.parts-intro + .part { margin-top: clamp(2rem, 5vw, 3.5rem); }
+.part-head { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+.part-head .part-num { margin: 0 0 0.3rem; font-size: var(--step--1); font-weight: 700; color: var(--green-deep); letter-spacing: 0.04em; text-transform: uppercase; }
+.part-head h2 { margin: 0 0 0.75rem; font-size: var(--step-3); line-height: 1.05; letter-spacing: -0.025em; }
+.part-body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+.steps { display: grid; gap: 1.75rem; }
+.step h3 {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin: 0 0 0.5rem; font-size: var(--step--1); font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+}
+.step h3::before { content: ""; width: 1.4rem; height: 2px; background: var(--line); }
+.step p, .step ul { margin: 0 0 0.75rem; max-width: 58ch; }
+.step ul { padding-left: 1.2rem; }
+.step li { margin-bottom: 0.4rem; }
+.step li::marker { color: var(--green-deep); }
+.step-result {
+  padding: 1rem 1.15rem 0.35rem;
+  background: var(--green-wash);
+  border-left: 3px solid var(--green-deep);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.step-result h3 { color: var(--green-deep); }
+.step-result h3::before { background: var(--green-deep); }
+.part-body .block-media { grid-template-columns: minmax(0, 1fr); }
+.code.no-lines .line::before { display: none; }
+
+@media (max-width: 820px) {
+  .part-body { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Header image for a project whose logo is already in the picture */
+.title-art { margin: clamp(1.5rem, 4vw, 3rem) 0 0; }
+.title-art img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius); }
+.title-art + .project-head { padding-top: clamp(1.25rem, 3vw, 2rem); }
+
+/* Placeholder text: shown with a dashed outline and a small label so it's easy to find.
+   Remove class="ph" once you've written your own version. */
+.ph { outline: 1px dashed #8a6d3b; outline-offset: 4px; border-radius: 2px; }
+.ph::before {
+  content: "Placeholder"; display: inline-block; margin-right: 0.5em; padding: 0 0.4em;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: 0.15em;
+  color: #1a1a1a; background: #d9b25f; border-radius: 3px;
+}
+ul.ph::before, dd.ph::before { display: block; width: fit-content; margin-bottom: 0.3rem; }
+
+/* Full-width extra inside a part (e.g. the Venator attack-range viewer) */
+.part-extra { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.part-extra h3 { margin: 0 0 0.5rem; font-size: var(--step-2); line-height: 1.1; letter-spacing: -0.02em; }
+.part-extra > p { margin: 0 0 1rem; max-width: 65ch; }
+.part-body .gallery.diagrams { margin: 0; grid-template-columns: minmax(0, 1fr); }
+.part-body .editor-shots { margin: 0; }
+
+/* ---------- Venator: play-speed curve chart ---------- */
+.curve-chart { margin: 0; }
+.cv-wrap { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.75rem 0.5rem 0.25rem; }
+.cv-title { margin: 0 0 0.25rem 0.5rem; font-size: var(--step--1); font-weight: 700; }
+.cv-svg { display: block; width: 100%; height: auto; touch-action: pan-y; font-family: var(--font); }
+.cv-grid { stroke: var(--line); stroke-width: 1; }
+.cv-ref { stroke: #4a4f51; }
+.cv-tick, .cv-note { font-size: 12px; fill: var(--muted); }
+.cv-label { font-size: 12px; font-weight: 700; fill: var(--ink); }
+.cv-line { fill: none; stroke: var(--green-deep); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.cv-dot { fill: var(--green-deep); stroke: var(--surface); stroke-width: 2; }
+.cv-cross { stroke: var(--muted); stroke-width: 1; }
+.cv-tip {
+  position: absolute; pointer-events: none; white-space: nowrap;
+  padding: 0.3rem 0.55rem; border-radius: 6px; font-size: var(--step--1);
+  background: var(--raised); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.cv-table summary { cursor: pointer; font-size: var(--step--1); color: var(--muted); margin-top: 0.4rem; }
+.cv-table table { margin-top: 0.4rem; border-collapse: collapse; font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+.cv-table th, .cv-table td { padding: 0.2rem 0.9rem 0.2rem 0; text-align: left; border-bottom: 1px solid var(--line); }
+.cv-table th { color: var(--muted); font-weight: 600; }
+@media (max-width: 600px) {
+  .cv-tick, .cv-note, .cv-label { font-size: 19px; }
+}
