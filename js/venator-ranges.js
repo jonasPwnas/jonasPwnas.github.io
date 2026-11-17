@@ -38,15 +38,6 @@
         { id: 'moveTo', name: 'Move to player', kind: 'move', rule: 'always', weight: 0.67 },
         { id: 'idle', name: 'Idle', kind: 'idle', rule: 'always', weight: 0.001 }
       ]
-    },
-    crawler: {
-      label: 'Crawler', enter: 9,
-      states: [
-        { id: 'light', name: 'Light attack', kind: 'attack', rule: 'distance', min: 0.5, max: 1, weight: 6.49 },
-        { id: 'moveAway', name: 'Move away', kind: 'move', rule: 'moveAway', weight: 5.72 },
-        { id: 'moveTo', name: 'Move to player', kind: 'move', rule: 'distance', min: 2, max: 40, weight: 0.67 },
-        { id: 'idle', name: 'Idle', kind: 'idle', rule: 'always', weight: 0.001 }
-      ]
     }
   };
   var MOVE_AWAY_RANGE = 2.5;

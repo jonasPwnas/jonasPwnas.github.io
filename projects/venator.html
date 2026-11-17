@@ -90,6 +90,15 @@
             <h3>Result</h3>
             <p>Every enemy and the boss were built on it, each with its own mix of combat states and weights, so designers could shape how each one fights from the editor.</p>
           </div>
+          <div class="source-links">
+            <p>Source on GitHub:</p>
+            <ul>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs"><code>EnemyFsm.cs</code></a>: the state machine</li>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/FsmCombatState.cs"><code>FsmCombatState.cs</code></a>: the combat state designers tune</li>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/tree/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/CombatStates"><code>CombatStates/</code></a>: every combat state</li>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/Characters/FsmRootMotionController.cs#L377-L398"><code>FsmRootMotionController.cs</code></a>: root motion kept in sync with the NavMesh</li>
+            </ul>
+          </div>
           <figure class="editor-shots">
           <ul class="gallery inspector">
             <li><a href="../media/venator/inspector-enemy-fsm.png" data-caption="Enemy FSM settings in the Inspector">
@@ -108,23 +117,23 @@
             <figure class="code">
             <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs#L340-L357">EnemyFsm.cs, lines 340–357</a></figcaption>
             <pre><code style="counter-reset: line 339"><span class="line"><span class="c-w">        </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-mf">0f</span><span class="c-p">;</span></span>
-  <span class="line"><span class="c-w">        </span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">;</span></span>
-  <span class="line"></span>
-  <span class="line"><span class="c-w">        </span><span class="c-k">foreach</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-w"> </span><span class="c-k">in</span><span class="c-w"> </span><span class="c-n">avaliableCombatStates</span><span class="c-p">)</span></span>
-  <span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
-  <span class="line"><span class="c-w">            </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">stateWeight</span><span class="c-w"> </span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-p">)</span></span>
-  <span class="line"><span class="c-w">            </span><span class="c-p">{</span></span>
-  <span class="line"><span class="c-w">                </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">stateWeight</span><span class="c-p">;</span></span>
-  <span class="line"><span class="c-w">                </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-p">;</span></span>
-  <span class="line"><span class="c-w">            </span><span class="c-p">}</span></span>
-  <span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
-  <span class="line"></span>
-  <span class="line"><span class="c-w">        </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">==</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">)</span></span>
-  <span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
-  <span class="line"><span class="c-w">            </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">m_combatIdleStates</span><span class="c-p">[</span><span class="c-mi">0</span><span class="c-p">];</span></span>
-  <span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
-  <span class="line"></span>
-  <span class="line"><span class="c-w">        </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-p">;</span></span></code></pre>
+<span class="line"><span class="c-w">        </span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">;</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">foreach</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">FsmCombatState</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-w"> </span><span class="c-k">in</span><span class="c-w"> </span><span class="c-n">avaliableCombatStates</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">stateWeight</span><span class="c-w"> </span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">minWeight</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">minWeight</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">stateWeight</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">bestState</span><span class="c-w"> </span><span class="c-o">==</span><span class="c-w"> </span><span class="c-k">null</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">m_combatIdleStates</span><span class="c-p">[</span><span class="c-mi">0</span><span class="c-p">];</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span>
+<span class="line"></span>
+<span class="line"><span class="c-w">        </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-n">bestState</span><span class="c-p">;</span></span></code></pre>
             <p class="code-note">Choosing the next action: of the combat states it can enter right now, the enemy picks the one with the highest weight. The full project is <a href="https://github.com/jonasPwnas/VenatorUnity">on GitHub</a>, and there's also a <a href="https://github.com/jonasPwnas/FgAiAssignment">cleaned-up version</a> with the enemies in a simple test scene.</p>
           </figure>
             </div>
@@ -140,7 +149,6 @@
           <div class="rv-seg" role="group" aria-label="Enemy">
             <button type="button" data-enemy="boss" aria-pressed="true">Boss</button>
             <button type="button" data-enemy="sword" aria-pressed="false">Sword enemy</button>
-            <button type="button" data-enemy="crawler" aria-pressed="false">Crawler</button>
           </div>
           <div class="rv-seg" role="group" aria-label="View">
             <button type="button" data-zoom="close" aria-pressed="true">Close up</button>
@@ -167,6 +175,15 @@
         </div>
         <p class="code-note">Attacks are checked first unless the general attack cooldown is running, then movement, then idle. Within that pool, the state with the highest weight wins. Move away ignores its distance settings: its <code>CanEnter</code> is hard-coded to under 2.5 m.</p>
       </div>
+        <div class="source-links">
+          <p>The viewer follows this code in the repository:</p>
+          <ul>
+            <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyFsm.cs#L305-L358"><code>EnemyFsm.GetBestCombatState()</code></a>: picks the pool, then the highest weight</li>
+            <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/FsmCombatState.cs#L80-L92"><code>FsmCombatState.CanEnter()</code></a>: distance range and cooldown</li>
+            <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/CombatStates/MoveAwayCombatState.cs#L12-L15"><code>MoveAwayCombatState.CanEnter()</code></a>: the hard-coded 2.5 m</li>
+            <li><a href="https://github.com/jonasPwnas/VenatorUnity/tree/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/CombatStates">All combat states</a></li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -191,6 +208,14 @@
           <div class="step step-result">
             <h3>Result</h3>
             <p>Enemies, the player and elemental pickups all plug into the same system, so a new kind of object only has to implement one interface to take part.</p>
+          </div>
+          <div class="source-links">
+            <p>Source on GitHub:</p>
+            <ul>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/IDamageableElementalSource.cs"><code>IDamageableElementalSource.cs</code></a>: the interface</li>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/MainScripts/Enemy/EnemyStatus.cs#L270-L273"><code>EnemyStatus.cs</code></a>: an enemy reporting what it is</li>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/CombatCollision/PlayerHitboxHandler.cs#L53-L63"><code>PlayerHitboxHandler.cs</code></a>: the sword using it on a hit</li>
+            </ul>
           </div>
         </div>
         <div class="block-media">
@@ -224,7 +249,7 @@
       <header class="part-head">
         <p class="part-num">Part 3</p>
         <h2 id="player-title">The player character</h2>
-        <ul class="tags" aria-label="Tech"><li>3Cs</li><li>Root motion</li><li>Animation curves</li><li>FMOD</li></ul>
+        <ul class="tags" aria-label="Tech"><li>3Cs</li><li>Root motion</li><li>Animation curves</li></ul>
       </header>
       <div class="part-body">
         <div class="steps">
@@ -235,12 +260,19 @@
           <div class="step">
             <h3>What I built</h3>
             <p>Early on I owned the player controller. Starting from a prototype controller, I implemented the moveset we wanted, including the initial warp-motion-inspired system, and built the first version of the player prefab.</p>
-            <p>I also implemented all of Venator's animations, for the player and the enemies, along with all of its audio in FMOD.</p>
-            <p>The player character and the enemies use curves that modify the animation play speed at runtime, so we could quickly reshape the envelope of an attack animation. The same curves drive other values too, like attack momentum and jump gravity, and Venator uses even more of them. The system we use in Venator was implemented by me, then refined and built out by Linnea. You can find the first version, which was ported over to Venator, in <a href="https://github.com/jonasPwnas/Assignment1VampSurv">my earlier VampSurv project</a>.</p>
+            <p>I implemented all of Venator's animations, for the player and the enemies, and built the system that shapes them: curves on each clip that change the play speed at runtime, so we could quickly reshape the envelope of an attack. The same curves drive other values too, like attack momentum. Linnea later refined and built on it, and the first version is in <a href="https://github.com/jonasPwnas/Assignment1VampSurv">my earlier VampSurv project</a>.</p>
           </div>
           <div class="step step-result">
             <h3>Result</h3>
             <p>I handed the player over to another programmer, introducing them to root-motion animation and movement, so I could focus on the enemy AI and the elemental system.</p>
+          </div>
+          <div class="source-links">
+            <p>Source on GitHub:</p>
+            <ul>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/ImportedController/MeleeCharacter/Player/Scripts/AdvancedPlayerController.cs"><code>AdvancedPlayerController.cs</code></a>: the player controller I built for Venator, before Linnea took it over</li>
+              <li><a href="https://github.com/jonasPwnas/Assignment1VampSurv/blob/4a7dec8782421d052c4b14ac3903761ff1b4ab22/Assets/VampSurv/Player/Scripts/PlayerController.cs#L200-L221"><code>PlayerController.cs</code></a>: the first version of the curve-driven movement, in VampSurv</li>
+              <li><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/Characters/FsmRootMotionController.cs#L377-L398"><code>FsmRootMotionController.cs</code></a>: the enemies reading attack momentum from their curves</li>
+            </ul>
           </div>
           <figure class="curve-chart">
               <div class="cv-wrap">
@@ -280,6 +312,28 @@
           <figcaption>Enemy Animator controller</figcaption>
         </figure></li>
       </ul>
+          <div class="code-list">
+          <figure class="code">
+            <figcaption><a href="https://github.com/jonasPwnas/VenatorUnity/blob/49d1841ae2cc1b58ba13f206236bed54e85ac142/Assets/ImportedController/MeleeCharacter/Player/Scripts/AdvancedPlayerController.cs#L400-L415">AdvancedPlayerController.cs, lines 400–415</a></figcaption>
+            <pre><code style="counter-reset: line 399"><span class="line"><span class="c-w">        </span><span class="c-k">private</span><span class="c-w"> </span><span class="c-k">void</span><span class="c-w"> </span><span class="c-nf">OnAnimatorMove</span><span class="c-p">()</span><span class="c-w"> </span><span class="c-c1">//Animator movement - root movement</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-kt">var</span><span class="c-w"> </span><span class="c-n">state</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">m_animator</span><span class="c-p">.</span><span class="c-n">GetCurrentAnimatorStateInfo</span><span class="c-p">(</span><span class="c-mi">0</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">Vector3</span><span class="c-w"> </span><span class="c-n">velocity</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">m_animator</span><span class="c-p">.</span><span class="c-n">deltaPosition</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">gravityIntensity</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-o">-</span><span class="c-mf">8f</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">state</span><span class="c-p">.</span><span class="c-n">tagHash</span><span class="c-w"> </span><span class="c-o">==</span><span class="c-w"> </span><span class="c-n">AttackStateTag</span><span class="c-p">)</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">{</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">velocity</span><span class="c-w"> </span><span class="c-o">+=</span><span class="c-w"> </span><span class="c-n">transform</span><span class="c-p">.</span><span class="c-n">forward</span><span class="c-w"> </span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">m_animator</span><span class="c-p">.</span><span class="c-n">GetFloat</span><span class="c-p">(</span><span class="c-n">AttackMomentum</span><span class="c-p">)</span><span class="c-w"> </span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">Time</span><span class="c-p">.</span><span class="c-n">deltaTime</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-n">velocity</span><span class="c-p">.</span><span class="c-n">y</span><span class="c-w"> </span><span class="c-o">+=</span><span class="c-w"> </span><span class="c-n">gravityIntensity</span><span class="c-w"> </span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">Time</span><span class="c-p">.</span><span class="c-n">deltaTime</span><span class="c-p">;</span></span>
+<span class="line"><span class="c-w">                </span><span class="c-c1">//trail.enabled = true;</span></span>
+<span class="line"><span class="c-w">            </span><span class="c-p">}</span></span>
+<span class="line"><span class="c-w">            </span></span>
+<span class="line"><span class="c-w">            </span><span class="c-n">m_characterController</span><span class="c-p">.</span><span class="c-n">Move</span><span class="c-p">(</span><span class="c-n">velocity</span><span class="c-p">);</span></span>
+<span class="line"><span class="c-w">        </span><span class="c-p">}</span></span></code></pre>
+            <p class="code-note">Root motion moves the player, and during attacks the <code>AttackMomentum</code> curve on the clip adds a push forward on top.</p>
+          </figure>
+          </div>
         </div>
       </div>
     </section>

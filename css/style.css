@@ -879,3 +879,12 @@ ul.ph::before, dd.ph::before { display: block; width: fit-content; margin-bottom
 }
 .steps .code-list { margin-top: 0.5rem; }
 .steps .gallery.inspector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Links to source files (e.g. under the Venator viewer) */
+.source-links { margin-top: 1rem; font-size: var(--step--1); color: var(--muted); }
+.source-links p { margin: 0 0 0.4rem; }
+.source-links ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.3rem; }
+.source-links li::marker { color: var(--green-deep); }
+.source-links code { font-family: ui-monospace, Consolas, monospace; font-size: 0.95em; color: var(--ink); }
+.steps figure { margin: 0; }
+.steps figcaption { margin-top: 0.4rem; font-size: var(--step--1); color: var(--muted); }
