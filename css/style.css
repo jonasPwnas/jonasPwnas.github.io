@@ -877,3 +877,5 @@ ul.ph::before, dd.ph::before { display: block; width: fit-content; margin-bottom
 @media (max-width: 600px) {
   .cv-tick, .cv-note, .cv-label { font-size: 19px; }
 }
+.steps .code-list { margin-top: 0.5rem; }
+.steps .gallery.inspector { grid-template-columns: repeat(2, minmax(0, 1fr)); }

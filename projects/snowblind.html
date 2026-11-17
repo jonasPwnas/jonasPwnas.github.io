@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snowblind, Jonas Petersson</title>
+  <meta name="description" content="Technical artist on Snowblind, a four-week atmospheric survival game in Unreal Engine 5: deformable snow with Nanite tessellation and a growing Niagara snowstorm.">
+  <link rel="stylesheet" href="../css/style.css">
+  <!--
+    THIS PAGE USES THE PROBLEM / WHAT I BUILT / RESULT STRUCTURE
+    - The cards under "What I solved" link to the parts below.
+    - Each <section class="part"> has three steps: The problem, What I built, Result.
+    - To mark text as a draft, add class="ph" to it: it shows a yellow "Placeholder" label until you remove it.
+    - Grey striped boxes are media placeholders. Swap them for an <img> or a clip:
+      <video src="../media/snowblind/name.mp4" poster="../media/snowblind/name.jpg" controls loop muted playsinline preload="metadata"></video>
+  -->
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-name" href="../">Jonas Petersson</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="../#work">Work</a>
+        <a href="../#about">About</a>
+        <a href="../#contact">Contact</a>
+        <a href="../files/cv.pdf">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back" href="../#work">All work</a>
+
+    <figure class="title-art">
+      <div class="media-placeholder" style="aspect-ratio:16/9">Header image: a wide shot of the mountain and the storm</div>
+    </figure>
+
+    <header class="project-head">
+      <h1>Snowblind</h1>
+      <p class="summary">An atmospheric survival game where you're a musher who has to escape a mountain with your dogs before a huge storm rolls in and traps you. As technical artist, I built the deformable snow and the snowstorm, and both grow as the game goes on.</p>
+    </header>
+
+    <dl class="facts">
+      <div><dt>My role</dt><dd>Technical artist</dd></div>
+      <div><dt>Team</dt><dd>4 programmers, 4 designers</dd></div>
+      <div><dt>Length</dt><dd>4 weeks, Futuregames</dd></div>
+      <div><dt>Genre</dt><dd>Atmospheric survival</dd></div>
+      <div><dt>Tech</dt><dd>Unreal Engine 5, materials, Nanite tessellation, Niagara</dd></div>
+    </dl>
+
+    <!-- Overview: what the problems are, each card jumps to its part -->
+    <section class="parts-intro" aria-labelledby="parts-title">
+      <h2 id="parts-title">What I solved</h2>
+      <ol class="parts">
+        <li><a href="#snow">
+          <span class="part-num">Part 1 · Materials</span>
+          <strong>Deformable snow</strong>
+          <span class="ph">A musher and a dog team crossing a mountain should leave a real trail.</span>
+        </a></li>
+        <li><a href="#storm">
+          <span class="part-num">Part 2 · VFX</span>
+          <strong>The snowstorm</strong>
+          <span class="ph">The storm is the game's clock, so the player has to feel it closing in.</span>
+        </a></li>
+      </ol>
+    </section>
+
+    <!-- PART 1 -->
+    <section class="part" id="snow" aria-labelledby="snow-title">
+      <header class="part-head">
+        <p class="part-num">Part 1</p>
+        <h2 id="snow-title">Deformable snow</h2>
+        <ul class="tags" aria-label="Tech"><li>Landscape material</li><li>Nanite tessellation</li></ul>
+      </header>
+      <div class="part-body">
+        <div class="steps">
+          <div class="step">
+            <h3>The problem</h3>
+            <p class="ph">Snow is everywhere in Snowblind, and a musher and a dog team crossing it should leave a trail behind them. A flat snow texture would break the illusion, and the snow also had to get deeper as the storm closed in.</p>
+          </div>
+          <div class="step">
+            <h3>What I built</h3>
+            <p>A dynamic snow shader for the landscape material, using Nanite tessellation. It lets persistent prints be made, with real indentations in the geometry rather than just in the texture.</p>
+            <ul>
+              <li>The snow also changes depth over time, getting deeper as the game goes on</li>
+              <li class="ph">[How the prints are recorded and kept, e.g. render targets or a runtime virtual texture]</li>
+            </ul>
+          </div>
+          <div class="step step-result">
+            <h3>Result</h3>
+            <p class="ph">Everything that moves through the snow leaves tracks that stay, and the landscape itself shows time passing as the snow piles up.</p>
+          </div>
+        </div>
+        <div class="block-media">
+          <figure>
+            <div class="media-placeholder" style="aspect-ratio:16/9">Clip: prints being made in the snow, close up</div>
+            <figcaption class="ph">Caption for the prints clip.</figcaption>
+          </figure>
+          <figure>
+            <div class="media-placeholder" style="aspect-ratio:16/9">Screenshot: wireframe or side angle showing the real indentations, or the material graph</div>
+            <figcaption class="ph">Caption for the screenshot.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- PART 2 -->
+    <section class="part" id="storm" aria-labelledby="storm-title">
+      <header class="part-head">
+        <p class="part-num">Part 2</p>
+        <h2 id="storm-title">The snowstorm</h2>
+        <ul class="tags" aria-label="Tech"><li>Niagara</li><li>VFX</li></ul>
+      </header>
+      <div class="part-body">
+        <div class="steps">
+          <div class="step">
+            <h3>The problem</h3>
+            <p class="ph">The storm is the clock the whole game runs against, so the player has to feel it getting closer. Filling an entire mountain with falling snow would be far too expensive.</p>
+          </div>
+          <div class="step">
+            <h3>What I built</h3>
+            <p>A snowstorm VFX system made of three Niagara systems that I use around the player, creating the illusion of consistently falling snow. The storm grows in size and intensity over the course of the game.</p>
+            <ul>
+              <li class="ph">[What each of the three systems does, e.g. near flakes, distant snowfall and blowing snow]</li>
+              <li class="ph">[What drives the growth: a timer, game progress or something else]</li>
+            </ul>
+          </div>
+          <div class="step step-result">
+            <h3>Result</h3>
+            <p class="ph">Snow falls everywhere the player looks, for the cost of a few systems around one character, and the storm visibly builds until the end.</p>
+          </div>
+        </div>
+        <div class="block-media">
+          <figure>
+            <div class="media-placeholder" style="aspect-ratio:16/9">Clip: the storm early in the game compared with late</div>
+            <figcaption class="ph">Caption for the storm clip.</figcaption>
+          </figure>
+          <figure>
+            <div class="media-placeholder" style="aspect-ratio:16/9">Screenshot: the three Niagara systems in the editor</div>
+            <figcaption class="ph">Caption for the Niagara screenshot.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reflection -->
+    <section class="block full">
+      <div class="block-text">
+        <h2>Looking back</h2>
+        <p class="ph">[A few sentences in your own words: what you learned, what you'd do differently.]</p>
+      </div>
+    </section>
+
+    <nav class="next" aria-label="More projects">
+      <a class="btn btn-ghost" href="pros.html">Previous: P.R.O.S</a>
+      <a href="../#work">All work</a>
+      <a class="btn btn-ghost" href="bramble.html">Next: Bramble</a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Jonas Petersson, 2026. Snowblind was made by a Futuregames student team.</div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

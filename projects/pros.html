@@ -148,6 +148,39 @@
             <h3>Result</h3>
             <p>Players could pull, push and fire nearly anything at each other, teammates included, and that one tool became the source of most of the game's chaos.</p>
           </div>
+            <div class="code-list">
+            <figure class="code">
+              <figcaption>BsTypes.h, lines 7–18</figcaption>
+              <pre><code style="counter-reset: line 6"><span class="line"><span class="c-cm">/*</span></span>
+  <span class="line"><span class="c-cm"> *Define this objects behavior when interacted with thorugh the vacuum</span></span>
+  <span class="line"><span class="c-cm"> */</span></span>
+  <span class="line"><span class="c-n">UENUM</span><span class="c-p">(</span><span class="c-n">BlueprintType</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-k">enum</span><span class="c-w"> </span><span class="c-k">class</span><span class="c-w"> </span><span class="c-nc">ESuckableType</span><span class="c-w"> </span><span class="c-o">:</span><span class="c-w"> </span><span class="c-n">uint8</span></span>
+  <span class="line"><span class="c-p">{</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">None</span><span class="c-w">			</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"None"</span><span class="c-p">),</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">Suckable</span><span class="c-w">		</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Suckable"</span><span class="c-p">),</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">Stuckable</span><span class="c-w">       </span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Stuckable"</span><span class="c-p">),</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">Character</span><span class="c-w">		</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Character"</span><span class="c-p">),</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">Resource</span><span class="c-w">		</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Resource"</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-p">};</span></span></code></pre>
+              <p class="code-note">How an object reacts to the vacuum. A Stuckable object gets stuck in the nozzle and can be fired back out.</p>
+            </figure>
+            <figure class="code">
+              <figcaption>Suckable.h, lines 39–49</figcaption>
+              <pre><code style="counter-reset: line 38"><span class="line"><span class="c-w">	</span><span class="c-cm">/**</span></span>
+  <span class="line"><span class="c-cm">	* Inhaling the object, moving it toward the vacuum nozzle </span></span>
+  <span class="line"><span class="c-cm">	*/</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UFUNCTION</span><span class="c-p">(</span><span class="c-n">BlueprintNativeEvent</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintCallable</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">meta</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Suckable"</span><span class="c-p">))</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-kt">void</span><span class="c-w"> </span><span class="c-n">GetSucked</span><span class="c-p">(</span><span class="c-n">USceneComponent</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">SuckingNozzle</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FVector</span><span class="c-w"> </span><span class="c-n">SuckForce</span><span class="c-p">);</span></span>
+  <span class="line"></span>
+  <span class="line"><span class="c-w">	</span><span class="c-cm">/**</span></span>
+  <span class="line"><span class="c-cm">	* Exhaling the object, moving it away from the vacuum nozzle </span></span>
+  <span class="line"><span class="c-cm">	*/</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UFUNCTION</span><span class="c-p">(</span><span class="c-n">BlueprintNativeEvent</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintCallable</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">meta</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Suckable"</span><span class="c-p">))</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-kt">void</span><span class="c-w"> </span><span class="c-n">GetBlown</span><span class="c-p">(</span><span class="c-n">USceneComponent</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">BlowingNozzle</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FVector</span><span class="c-w"> </span><span class="c-n">BlowForce</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">StuckBlow</span><span class="c-p">);</span></span></code></pre>
+              <p class="code-note">Two of the interface's events. They're native events, so each base class and Blueprint can respond in its own way.</p>
+            </figure>
+            </div>
         </div>
         <div class="block-media">
           <figure>
@@ -176,37 +209,6 @@
             </figure></li>
           </ul>
           <div class="code-list">
-          <figure class="code">
-            <figcaption>BsTypes.h, lines 7–18</figcaption>
-            <pre><code style="counter-reset: line 6"><span class="line"><span class="c-cm">/*</span></span>
-<span class="line"><span class="c-cm"> *Define this objects behavior when interacted with thorugh the vacuum</span></span>
-<span class="line"><span class="c-cm"> */</span></span>
-<span class="line"><span class="c-n">UENUM</span><span class="c-p">(</span><span class="c-n">BlueprintType</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-k">enum</span><span class="c-w"> </span><span class="c-k">class</span><span class="c-w"> </span><span class="c-nc">ESuckableType</span><span class="c-w"> </span><span class="c-o">:</span><span class="c-w"> </span><span class="c-n">uint8</span></span>
-<span class="line"><span class="c-p">{</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">None</span><span class="c-w">			</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"None"</span><span class="c-p">),</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">Suckable</span><span class="c-w">		</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Suckable"</span><span class="c-p">),</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">Stuckable</span><span class="c-w">       </span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Stuckable"</span><span class="c-p">),</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">Character</span><span class="c-w">		</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Character"</span><span class="c-p">),</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">Resource</span><span class="c-w">		</span><span class="c-n">UMETA</span><span class="c-p">(</span><span class="c-n">DisplayName</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Resource"</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-p">};</span></span></code></pre>
-            <p class="code-note">How an object reacts to the vacuum. A Stuckable object gets stuck in the nozzle and can be fired back out.</p>
-          </figure>
-          <figure class="code">
-            <figcaption>Suckable.h, lines 39–49</figcaption>
-            <pre><code style="counter-reset: line 38"><span class="line"><span class="c-w">	</span><span class="c-cm">/**</span></span>
-<span class="line"><span class="c-cm">	* Inhaling the object, moving it toward the vacuum nozzle </span></span>
-<span class="line"><span class="c-cm">	*/</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UFUNCTION</span><span class="c-p">(</span><span class="c-n">BlueprintNativeEvent</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintCallable</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">meta</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Suckable"</span><span class="c-p">))</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-kt">void</span><span class="c-w"> </span><span class="c-n">GetSucked</span><span class="c-p">(</span><span class="c-n">USceneComponent</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">SuckingNozzle</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FVector</span><span class="c-w"> </span><span class="c-n">SuckForce</span><span class="c-p">);</span></span>
-<span class="line"></span>
-<span class="line"><span class="c-w">	</span><span class="c-cm">/**</span></span>
-<span class="line"><span class="c-cm">	* Exhaling the object, moving it away from the vacuum nozzle </span></span>
-<span class="line"><span class="c-cm">	*/</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UFUNCTION</span><span class="c-p">(</span><span class="c-n">BlueprintNativeEvent</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintCallable</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">meta</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Suckable"</span><span class="c-p">))</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-kt">void</span><span class="c-w"> </span><span class="c-n">GetBlown</span><span class="c-p">(</span><span class="c-n">USceneComponent</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">BlowingNozzle</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FVector</span><span class="c-w"> </span><span class="c-n">BlowForce</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">StuckBlow</span><span class="c-p">);</span></span></code></pre>
-            <p class="code-note">Two of the interface's events. They're native events, so each base class and Blueprint can respond in its own way.</p>
-          </figure>
           <figure class="code">
             <figcaption>BsActor.h, lines 69–85</figcaption>
             <pre><code style="counter-reset: line 68"><span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadOnly</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-o">=</span><span class="c-s">"Suckable Settings"</span><span class="c-p">)</span></span>
@@ -255,6 +257,53 @@
             <h3>Result</h3>
             <p>None of the final reactions were hard-coded. By the last level, designers were chaining them: water puts out fire, electricity is stronger in water, and fire plus electricity spawns an explosion. They built all of that by combining starting statuses and susceptibilities.</p>
           </div>
+          <div class="code-list">
+            <figure class="code">
+              <figcaption>BSChemicalComponent.h, lines 37–51</figcaption>
+              <pre><code style="counter-reset: line 36"><span class="line"><span class="c-w">	</span><span class="c-c1">// Active statuses on this actor</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">ReplicatedUsing</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">OnRep_ActiveStatuses</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadWrite</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">FGameplayTagContainer</span><span class="c-w"> </span><span class="c-n">ActiveStatuses</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-w">	</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-c1">// Starter statuses on this actor</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">Replicated</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadWrite</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">TArray</span><span class="c-o">&lt;</span><span class="c-n">FChemicalStatus</span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">StarterStatuses</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-w">	</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-c1">// Active status DATA on this actor</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">Replicated</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadOnly</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">TArray</span><span class="c-o">&lt;</span><span class="c-n">FChemicalStatus</span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">ActiveStatusesData</span><span class="c-p">;</span></span>
+  <span class="line"></span>
+  <span class="line"><span class="c-w">	</span><span class="c-c1">/// What statuses this actor can receive</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadWrite</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">TMap</span><span class="c-o">&lt;</span><span class="c-n">FGameplayTag</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FChemicalStatus</span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">Suceptibilities</span><span class="c-p">;</span></span></code></pre>
+              <p class="code-note">What designers set up per actor, and what replicates to clients.</p>
+            </figure>
+            <figure class="code">
+              <figcaption>BSChemicalComponent.cpp, lines 69–90</figcaption>
+              <pre><code style="counter-reset: line 68"><span class="line"><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-nf">UChemicalComponent::TryApplyStatus</span><span class="c-p">(</span><span class="c-n">FGameplayTag</span><span class="c-w"> </span><span class="c-n">StatusTag</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">Duration</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">bTicking</span><span class="c-p">)</span></span>
+  <span class="line"><span class="c-p">{</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-o">!</span><span class="c-n">GetOwner</span><span class="c-p">()</span><span class="c-o">-&gt;</span><span class="c-n">HasAuthority</span><span class="c-p">())</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-p">{</span></span>
+  <span class="line"><span class="c-w">		</span><span class="c-n">GEngine</span><span class="c-o">-&gt;</span><span class="c-n">AddOnScreenDebugMessage</span><span class="c-p">(</span><span class="c-mi">-1</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-mf">5.f</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FColor</span><span class="c-o">::</span><span class="c-n">Red</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">TEXT</span><span class="c-p">(</span><span class="c-s">"Spreader has no AUTH"</span><span class="c-p">));</span></span>
+  <span class="line"><span class="c-w">		</span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">false</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-p">}</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-o">!</span><span class="c-n">IsSusceptibleTo</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">))</span><span class="c-w"> </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">false</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">HasStatus</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">))</span><span class="c-w"> </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">false</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-w">	</span></span>
+  <span class="line"></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">FChemicalStatus</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">NewStatus</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">Suceptibilities</span><span class="c-p">.</span><span class="c-n">Find</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">NewStatus</span><span class="c-o">-&gt;</span><span class="c-n">TimeRemaining</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">NewStatus</span><span class="c-o">-&gt;</span><span class="c-n">Duration</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-w">	</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">ActiveStatuses</span><span class="c-p">.</span><span class="c-n">AddTag</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">ActiveStatusesData</span><span class="c-p">.</span><span class="c-n">Add</span><span class="c-p">(</span><span class="c-o">*</span><span class="c-n">NewStatus</span><span class="c-p">);</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">NotifyStatusApplied</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">UpdateTickState</span><span class="c-p">();</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">SpreadOverlap</span><span class="c-o">-&gt;</span><span class="c-n">SetCollisionEnabled</span><span class="c-p">(</span><span class="c-n">ECollisionEnabled</span><span class="c-o">::</span><span class="c-n">QueryOnly</span><span class="c-p">);</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-n">OnStatusApplied</span><span class="c-p">.</span><span class="c-n">Broadcast</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
+  <span class="line"><span class="c-w">	</span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">true</span><span class="c-p">;</span></span>
+  <span class="line"><span class="c-p">}</span></span></code></pre>
+              <p class="code-note">Applying a status only happens on the server, and only if the actor is susceptible to it.</p>
+            </figure>
+            </div>
         </div>
         <div class="block-media">
           <figure>
@@ -274,51 +323,6 @@
             <figcaption>My test level, where I tested everything I built.</figcaption>
           </figure>
           <div class="code-list">
-          <figure class="code">
-            <figcaption>BSChemicalComponent.h, lines 37–51</figcaption>
-            <pre><code style="counter-reset: line 36"><span class="line"><span class="c-w">	</span><span class="c-c1">// Active statuses on this actor</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">ReplicatedUsing</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">OnRep_ActiveStatuses</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadWrite</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">FGameplayTagContainer</span><span class="c-w"> </span><span class="c-n">ActiveStatuses</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-w">	</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-c1">// Starter statuses on this actor</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">Replicated</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadWrite</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">TArray</span><span class="c-o">&lt;</span><span class="c-n">FChemicalStatus</span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">StarterStatuses</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-w">	</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-c1">// Active status DATA on this actor</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">Replicated</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadOnly</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">TArray</span><span class="c-o">&lt;</span><span class="c-n">FChemicalStatus</span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">ActiveStatusesData</span><span class="c-p">;</span></span>
-<span class="line"></span>
-<span class="line"><span class="c-w">	</span><span class="c-c1">/// What statuses this actor can receive</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UPROPERTY</span><span class="c-p">(</span><span class="c-n">EditAnywhere</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">BlueprintReadWrite</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">Category</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-s">"Chemical"</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">TMap</span><span class="c-o">&lt;</span><span class="c-n">FGameplayTag</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FChemicalStatus</span><span class="c-o">&gt;</span><span class="c-w"> </span><span class="c-n">Suceptibilities</span><span class="c-p">;</span></span></code></pre>
-            <p class="code-note">What designers set up per actor, and what replicates to clients.</p>
-          </figure>
-          <figure class="code">
-            <figcaption>BSChemicalComponent.cpp, lines 69–90</figcaption>
-            <pre><code style="counter-reset: line 68"><span class="line"><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-nf">UChemicalComponent::TryApplyStatus</span><span class="c-p">(</span><span class="c-n">FGameplayTag</span><span class="c-w"> </span><span class="c-n">StatusTag</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">float</span><span class="c-w"> </span><span class="c-n">Duration</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-kt">bool</span><span class="c-w"> </span><span class="c-n">bTicking</span><span class="c-p">)</span></span>
-<span class="line"><span class="c-p">{</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-o">!</span><span class="c-n">GetOwner</span><span class="c-p">()</span><span class="c-o">-&gt;</span><span class="c-n">HasAuthority</span><span class="c-p">())</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-p">{</span></span>
-<span class="line"><span class="c-w">		</span><span class="c-n">GEngine</span><span class="c-o">-&gt;</span><span class="c-n">AddOnScreenDebugMessage</span><span class="c-p">(</span><span class="c-mi">-1</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-mf">5.f</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">FColor</span><span class="c-o">::</span><span class="c-n">Red</span><span class="c-p">,</span><span class="c-w"> </span><span class="c-n">TEXT</span><span class="c-p">(</span><span class="c-s">"Spreader has no AUTH"</span><span class="c-p">));</span></span>
-<span class="line"><span class="c-w">		</span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">false</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-p">}</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-o">!</span><span class="c-n">IsSusceptibleTo</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">))</span><span class="c-w"> </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">false</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-k">if</span><span class="c-w"> </span><span class="c-p">(</span><span class="c-n">HasStatus</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">))</span><span class="c-w"> </span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">false</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-w">	</span></span>
-<span class="line"></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">FChemicalStatus</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">NewStatus</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">Suceptibilities</span><span class="c-p">.</span><span class="c-n">Find</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">NewStatus</span><span class="c-o">-&gt;</span><span class="c-n">TimeRemaining</span><span class="c-w"> </span><span class="c-o">=</span><span class="c-w"> </span><span class="c-n">NewStatus</span><span class="c-o">-&gt;</span><span class="c-n">Duration</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-w">	</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">ActiveStatuses</span><span class="c-p">.</span><span class="c-n">AddTag</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">ActiveStatusesData</span><span class="c-p">.</span><span class="c-n">Add</span><span class="c-p">(</span><span class="c-o">*</span><span class="c-n">NewStatus</span><span class="c-p">);</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">NotifyStatusApplied</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">UpdateTickState</span><span class="c-p">();</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">SpreadOverlap</span><span class="c-o">-&gt;</span><span class="c-n">SetCollisionEnabled</span><span class="c-p">(</span><span class="c-n">ECollisionEnabled</span><span class="c-o">::</span><span class="c-n">QueryOnly</span><span class="c-p">);</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-n">OnStatusApplied</span><span class="c-p">.</span><span class="c-n">Broadcast</span><span class="c-p">(</span><span class="c-n">StatusTag</span><span class="c-p">);</span></span>
-<span class="line"><span class="c-w">	</span><span class="c-k">return</span><span class="c-w"> </span><span class="c-nb">true</span><span class="c-p">;</span></span>
-<span class="line"><span class="c-p">}</span></span></code></pre>
-            <p class="code-note">Applying a status only happens on the server, and only if the actor is susceptible to it.</p>
-          </figure>
           <figure class="code">
             <figcaption>BSChemicalComponent.cpp, lines 135–149</figcaption>
             <pre><code style="counter-reset: line 134"><span class="line"><span class="c-kt">void</span><span class="c-w"> </span><span class="c-nf">UChemicalComponent::TrySpreadTo</span><span class="c-p">(</span><span class="c-n">AActor</span><span class="c-o">*</span><span class="c-w"> </span><span class="c-n">OtherActor</span><span class="c-p">)</span></span>
